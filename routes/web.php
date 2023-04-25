@@ -19,4 +19,6 @@ Route::get('/', function () {
 });
 
 Route::get('/home', [PageController::class, 'index']);
+Route::post('/home', [PageController::class, 'store']);
+
 Route::get('/about', [PageController::class, 'about']);

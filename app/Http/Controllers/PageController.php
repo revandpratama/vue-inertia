@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class PageController extends Controller
 {
@@ -20,5 +21,20 @@ class PageController extends Controller
         return Inertia::render('About', [
             'title' => 'inertia - About'
         ]);
+    }
+
+    public function store(Request $request) 
+    {
+        
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'username' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+
+        $validatedData['password'] = bcrypt($validatedData['password']);
+
+        return redirect('/home')->with('success', 'Data Valid');
     }
 }

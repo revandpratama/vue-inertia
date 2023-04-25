@@ -6,9 +6,8 @@ import { Link } from '@inertiajs/vue3'
 <template>
   <main>
     <header>
-      <Link href="/">Home</Link>
-      <Link href="/about">About</Link>
-      <Link href="/contact">Contact</Link>
+      <Link href="/home" as="button" class="bg-slate-300 mx-1 p-1 rounded border-2 border-black hover:bg-slate-500">Home</Link>
+      <Link href="/about" as="button" class="bg-slate-300 mx-1 p-1 rounded border-2 border-black hover:bg-slate-500">About</Link>
     </header>
     <article>
       <slot />
