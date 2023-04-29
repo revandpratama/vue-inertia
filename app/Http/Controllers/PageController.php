@@ -10,10 +10,12 @@ class PageController extends Controller
 {
     public function index()
     {
+        $user = auth()->user();
         $lectures = ['Programming', 'BioAqua', 'Social'];
         return Inertia::render('Home', [
             'lectures' => $lectures,
-            'title' => 'Inertia - Laravel'
+            'title' => 'Inertia - Laravel',
+            'user' => $user
         ]);
     }
     public function about()
@@ -27,10 +29,10 @@ class PageController extends Controller
     {
         
         $validatedData = $request->validate([
-            'name' => 'required',
-            'username' => 'required',
-            'email' => 'required',
-            'password' => 'required',
+            'name' => 'required|max:30',
+            'username' => 'required|regex:/^[a-zA-Z0-9]+$/',
+            'email' => 'required|email:dns',
+            'password' => 'required|max:15',
         ]);
 
         $validatedData['password'] = bcrypt($validatedData['password']);
