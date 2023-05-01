@@ -61,7 +61,8 @@ class PageController extends Controller
         ]);
 
         User::where('id', $request->id)->update($validatedData);
-
-        return back()->with('accountUpdate', 'Account Updated!');
+        
+        // return Inertia::location('/edit/' . $request->username)->with('accountUpdate' , 'Account Updated!');
+        return redirect('/edit/' . $request->username)->with('accountUpdate', 'Account Updated!');
     }
 }

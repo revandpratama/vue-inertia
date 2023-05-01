@@ -29,7 +29,7 @@ Route::get('/edit/{user:username}', [PageController::class, 'editAccount'])
 Route::put('/edit', [PageController::class, 'update']);
 
 
-Route::get('/login', [LoginController::class, 'index']);
+Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'store']);
 Route::post('/logout', [LoginController::class, 'logout']);
 

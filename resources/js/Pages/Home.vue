@@ -6,16 +6,27 @@
             {{ lecture }}
         </h3>
         <button @click="show()" class="bg-lime-400">Goofy Button</button> <br />
-        <span v-show="ballButton">Blue beetle</span>
+        <Transition>
+            <span v-show="ballButton">Blue beetle</span>
+        </Transition>
+        
 
         <br />
         <span>{{ computedSlug }}</span> <br>
         <input v-model="message" placeholder="edit me" />
 
         <div class="w-96 mx-6">
-            <span v-if="$page.props.flash.success">
-                {{ $page.props.flash.success }}
-            </span>
+            <Transition>
+                <span v-if="$page.props.flash.success">
+                    <Alert type="success" closable>Success</Alert>
+                </span>
+            </Transition>
+            <Transition>
+                <span v-if="showSuccess">
+                    <Alert type="success" closable>Success</Alert>
+                </span>
+            </Transition>
+            
 
             <form @submit.prevent="regist">
                 <div class="mb-6">
@@ -105,6 +116,7 @@ export default {
         return {
             ballButton: false,
             message: '',
+            showSuccess: false,
         };
     },
     methods: {
@@ -113,6 +125,9 @@ export default {
             self.ballButton = true;
             setTimeout( () => {self.ballButton = false}, 2000);
         },
+        onSuccess() {
+            this.showSuccess =  true
+        }
     },
 
     computed: {
@@ -129,7 +144,8 @@ export default {
 </script>
 
 <script setup>
-import { reactive } from "vue";
+import { Alert } from 'flowbite-vue';
+import { reactive, Transition } from "vue";
 import { router } from "@inertiajs/vue3";
 
 // Init flowbite to make Js work even without page reload
@@ -148,6 +164,21 @@ const form = reactive({
 });
 
 function regist() {
-    router.post("/home", form);
+    router.post("/home", form, {
+        preserveScroll: true,
+        
+    });
 }
 </script>
+
+<style>
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+</style>
