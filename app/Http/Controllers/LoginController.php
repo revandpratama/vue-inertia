@@ -35,4 +35,12 @@ class LoginController extends Controller
             'email' => 'Email or password are incorrect'
         ])->onlyInput('email');
     }
+
+    public function logout(Request $request) 
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/home');
+    }
 }

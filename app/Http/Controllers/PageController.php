@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -21,7 +22,8 @@ class PageController extends Controller
     public function about()
     {
         return Inertia::render('About', [
-            'title' => 'inertia - About'
+            'title' => 'inertia - About',
+            'names' => ['alexi', 'ginger', 'fonso']
         ]);
     }
 
@@ -38,5 +40,28 @@ class PageController extends Controller
         $validatedData['password'] = bcrypt($validatedData['password']);
 
         return redirect('/home')->with('success', 'Data Valid');
+    }
+
+    public function editAccount() 
+    {
+        
+
+        return Inertia::render('EditAccount', [
+            'title' => 'Inertia - Edit Account'
+        ]);
+    }
+
+    public function update(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'username' => 'required',
+            'email' => 'required',
+
+        ]);
+
+        User::where('id', $request->id)->update($validatedData);
+
+        return back()->with('accountUpdate', 'Account Updated!');
     }
 }

@@ -1,14 +1,6 @@
 
 <template>
-  <main>
-    <header>
-      <Link href="/home" as="button" class="bg-slate-300 mx-1 p-1 rounded border-2 border-black hover:bg-slate-500">Home
-      </Link>
-      <Link href="/about" as="button" class="bg-slate-300 mx-1 p-1 rounded border-2 border-black hover:bg-slate-500">About
-      </Link>
-    </header>
-  </main>
-
+  
   <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
     <div class="px-3 py-3 lg:px-5 lg:pl-3">
       <div class="flex items-center justify-between">
@@ -28,8 +20,9 @@
             <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 mr-3" alt="FlowBite Logo" />
             <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Flowbite</span>
           </a>
+          
         </div>
-        <div class="flex items-center" v-if="loggedIn">
+        <div class="flex items-center" v-if="user">
           <div class="flex items-center ml-3">
             <div>
               <button type="button"
@@ -40,44 +33,42 @@
                   alt="user photo" />
               </button>
             </div>
-            <div  
+            <div
               class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600"
               id="dropdown-user">
               <div class="px-4 py-3" role="none">
                 <p class="text-sm text-gray-900 dark:text-white" role="none">
-                  
+                  {{ user.name }}
                 </p>
                 <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                  neil.sims@flowbite.com
+                  {{ user.email }}
                 </p>
               </div>
               <ul class="py-1" role="none">
+                
                 <li>
-                  <a href="#"
+                  <Link :href="'/edit/'+ user.username"
                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                    role="menuitem">Dashboard</a>
+                    role="menuitem">Edit Account</Link>
                 </li>
-                <li>
-                  <a href="#"
-                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                    role="menuitem">Settings</a>
-                </li>
-                <li>
+                <!-- <li>
                   <a href="#"
                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                     role="menuitem">Earnings</a>
-                </li>
+                </li> -->
                 <li>
-                  <a href="#"
-                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                    role="menuitem">Sign out</a>
+                  <form @submit.prevent="logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white">
+                    <button type="submit" class="w-full text-start"
+                      role="menuitem">Logout</button>
+                  </form>
+
                 </li>
               </ul>
             </div>
           </div>
         </div>
         <div v-else class="flex items-center">
-          <Link as="button" href="/login" class="bg-sky-600 hover:bg-sky-700 p-2 text-lime-100 rounded-xl">Login</Link>
+          <Link as="button" href="/login" class="bg-sky-600 hover:bg-sky-700 py-1 px-4 text-lime-100 rounded-md">Login</Link>
         </div>
       </div>
     </div>
@@ -86,18 +77,18 @@
   <aside id="logo-sidebar"
     class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
     aria-label="Sidebar">
-    <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
+    <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800" >
       <ul class="space-y-2 font-medium">
-        <li>
+        <li :class="{'bg-gray-100': $page.component == 'Home'}">
           <Link href="/home"
             class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-            <svg aria-hidden="true"
-              class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-              fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-              <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
-              <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
-            </svg>
-            <span class="ml-3">Dashboard</span>
+          <svg aria-hidden="true"
+            class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+            fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
+            <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
+          </svg>
+          <span class="ml-3">Dashboard</span>
           </Link>
         </li>
         <li>
@@ -171,17 +162,17 @@
             <span class="flex-1 ml-3 whitespace-nowrap">Sign In</span>
           </a>
         </li>
-        <li>
+        <li :class="{'bg-gray-100': $page.component == 'About'}">
           <Link href="/about"
             class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-            <svg aria-hidden="true"
-              class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-              fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd"
-                d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM9 8H4v2h5V8z"
-                clip-rule="evenodd"></path>
-            </svg>
-            <span class="flex-1 ml-3 whitespace-nowrap">About</span>
+          <svg aria-hidden="true"
+            class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+            fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd"
+              d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM9 8H4v2h5V8z"
+              clip-rule="evenodd"></path>
+          </svg>
+          <span class="flex-1 ml-3 whitespace-nowrap">About</span>
           </Link>
         </li>
       </ul>
@@ -190,7 +181,7 @@
 
   <div class="p-4 sm:ml-64">
     <article>
-      <slot :getUser="getUser" />
+      <slot  />
     </article>
   </div>
 </template>
@@ -204,7 +195,7 @@ export default {
     }
   },
 
-  props: ['title', 'user'],
+  props: ['title', 'user', 'names'],
   watch: {
     title: {
       immediate: true,
@@ -215,35 +206,31 @@ export default {
   },
 
   methods: {
-    getUserName(name){
-      alert(name);
+    logout() {
+      router.post('/logout')
     }
   }
 };
 </script>
 
 <script setup>
-import { Link } from "@inertiajs/vue3";
+import { Link, router } from "@inertiajs/vue3";
 import axios from 'axios';
+
+import { computed } from 'vue'
+import { usePage } from '@inertiajs/vue3'
 
 
 // Init flowbite to make Js work even without page reload
-  import { onMounted } from 'vue';
-  import { initFlowbite } from 'flowbite';
-  onMounted(() => {
-      initFlowbite();
-  })
+import { onMounted } from 'vue';
+import { initFlowbite } from 'flowbite';
+onMounted(() => {
+  initFlowbite();
+})
+
+const page = usePage();
+
+const user = computed(() => page.props.auth.user);
 
 
-
-
-const getUser = () => {
-  return axios.get('/api/user')
-    .then(response => {
-      return response.data;
-    })
-    .catch(error => {
-      console.log(error);
-    });
-}
 </script>

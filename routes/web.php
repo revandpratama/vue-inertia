@@ -23,6 +23,13 @@ Route::get('/home', [PageController::class, 'index']);
 Route::post('/home', [PageController::class, 'store']);
 
 Route::get('/about', [PageController::class, 'about']);
+Route::get('/edit/{user:username}', [PageController::class, 'editAccount'])
+    ->middleware('auth');
+
+Route::put('/edit', [PageController::class, 'update']);
+
 
 Route::get('/login', [LoginController::class, 'index']);
 Route::post('/login', [LoginController::class, 'store']);
+Route::post('/logout', [LoginController::class, 'logout']);
+

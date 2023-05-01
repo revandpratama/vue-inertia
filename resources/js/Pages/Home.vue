@@ -1,5 +1,6 @@
 <template>
-    <Main title="Home - Inertia">
+    
+        <div class="mt-14"></div>
         <h1 class="text-4xl font-medium">HelloWorld </h1>
         <h3 v-for="lecture in lectures" :key="lecture">
             {{ lecture }}
@@ -85,21 +86,20 @@
             </button>
         </div>
         
-    </Main>
+    
     
 </template>
 
 <script>
 import Main from "../Layouts/Main.vue";
 export default {
+    layout: Main,
+
     props: [
         "lectures", "title", "errors", "user", "getUser"
     ],
 
 
-    components: {
-        Main,
-    },
 
     data() {
         return {
@@ -111,9 +111,7 @@ export default {
         show() {
             var self = this;
             self.ballButton = true;
-            setTimeout(function () {
-                self.ballButton = false;
-            }, 2000);
+            setTimeout( () => {self.ballButton = false}, 2000);
         },
     },
 
