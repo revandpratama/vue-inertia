@@ -58,13 +58,6 @@ export default {
 import { Input, Alert } from "flowbite-vue";
 import { computed, reactive, Transition } from "vue";
 import { router, usePage } from "@inertiajs/vue3";
-import { useNotification } from "@kyvg/vue3-notification";
-
-const notification = useNotification()
-
-notification.notify({
-  title: "Vue 3 notification 🎉",
-});
 
 const page = usePage();
 const user = computed(() => page.props.auth.user);

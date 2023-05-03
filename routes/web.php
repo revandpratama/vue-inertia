@@ -22,6 +22,8 @@ Route::get('/', function () {
 Route::get('/home', [PageController::class, 'index']);
 Route::post('/home', [PageController::class, 'store']);
 
+Route::get('/timer', [PageController::class, 'timer']);
+
 Route::get('/about', [PageController::class, 'about']);
 Route::get('/edit/{user:username}', [PageController::class, 'editAccount'])
     ->middleware('auth');

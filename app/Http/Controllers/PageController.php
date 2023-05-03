@@ -65,4 +65,10 @@ class PageController extends Controller
         // return Inertia::location('/edit/' . $request->username)->with('accountUpdate' , 'Account Updated!');
         return redirect('/edit/' . $request->username)->with('accountUpdate', 'Account Updated!');
     }
+
+    public function timer() {
+        return Inertia::render('Timer', [
+            'title' => 'Inertia - timer'
+        ]);
+    }
 }
